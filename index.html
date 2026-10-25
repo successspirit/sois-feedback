@@ -17,6 +17,53 @@
     <!-- Inter & Cairo Fonts for AR/EN Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+    <!-- Firebase SDK Modules -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global Firebase state references
+        window.firebaseDb = null;
+        window.firebaseAuth = null;
+        window.appId = typeof __app_id !== 'undefined' ? __app_id : 'sama-onaizah-app';
+
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {
+                apiKey: "demo-key",
+                authDomain: "demo.firebaseapp.com",
+                projectId: "demo-project",
+                storageBucket: "demo.appspot.com",
+                messagingSenderId: "123456789",
+                appId: "1:123456789:web:demo"
+            };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            window.firebaseDb = getFirestore(app);
+            window.firebaseAuth = getAuth(app);
+            
+            // Expose Firestore methods globally
+            window.firebaseCollection = collection;
+            window.firebaseAddDoc = addDoc;
+            window.firebaseOnSnapshot = onSnapshot;
+
+            const authToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+            if (authToken) {
+                await signInWithCustomToken(window.firebaseAuth, authToken);
+            } else {
+                await signInAnonymously(window.firebaseAuth);
+            }
+
+            if (typeof window.initRealtimeSync === 'function') {
+                window.initRealtimeSync();
+            }
+        } catch (e) {
+            console.warn("Cloud connection notice: Falling back to local storage.", e);
+        }
+    </script>
+
     <style>
         :root {
             --font-en: 'Inter', sans-serif;
@@ -110,7 +157,7 @@
 </head>
 <body class="p-3 md:p-8 relative selection:bg-blue-500 selection:text-white">
 
-    <!-- Ambient Floating Background Blobs for 3D Lighting Effect -->
+    <!-- Ambient Floating Background Blobs -->
     <div class="fixed top-10 left-10 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
     <div class="fixed bottom-10 right-10 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -122,7 +169,6 @@
                 <div class="relative group">
                     <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 p-1 shadow-lg shadow-blue-500/30 group-hover:rotate-6 transition-transform duration-300">
                         <div class="w-full h-full bg-slate-900 rounded-xl p-1.5 flex items-center justify-center overflow-hidden">
-                            <!-- SVG Replica of Sama Onaizah Logo -->
                             <svg class="w-full h-full text-blue-400" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <circle cx="50" cy="45" r="32" stroke="#38bdf8" stroke-width="3.5" fill="#0284c7" fill-opacity="0.2"/>
                                 <path d="M 20 45 A 30 20 0 0 0 80 45" stroke="#38bdf8" stroke-width="2.5" fill="none"/>
@@ -145,7 +191,7 @@
                 </div>
             </div>
 
-            <!-- Language Toggle & Admin Switcher Controls -->
+            <!-- Language Toggle & Admin Controls -->
             <div class="flex items-center gap-3">
                 <button onclick="toggleLanguage()" class="btn-3d bg-slate-800 hover:bg-slate-700 text-blue-300 border border-blue-500/40 font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm">
                     <i class="fa-solid fa-globe text-blue-400"></i>
@@ -160,7 +206,7 @@
         </div>
     </header>
 
-    <!-- Main Dynamic Content Container -->
+    <!-- Main Container -->
     <main class="max-w-6xl mx-auto">
 
         <!-- GUARDIAN VIEW -->
@@ -187,7 +233,7 @@
                 </div>
             </div>
 
-            <!-- STEP 1: LOGIN / STUDENT & GUARDIAN INFORMATION PAGE -->
+            <!-- STEP 1: STUDENT & GUARDIAN INFORMATION PAGE -->
             <div id="step-1-page" class="max-w-2xl mx-auto glass-card-3d rounded-3xl p-6 md:p-10 border border-slate-700/60 shadow-2xl">
                 <div class="text-center mb-8">
                     <div class="w-16 h-16 mx-auto mb-3 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-inner border border-blue-500/30">
@@ -198,7 +244,6 @@
                 </div>
 
                 <form id="info-form" onsubmit="handleProceedToStep2(event)" class="space-y-5">
-                    <!-- Student Name -->
                     <div>
                         <label id="lbl-student-name" class="block text-sm font-semibold text-slate-300 mb-1.5">
                             Student Name <span class="text-rose-400">*</span>
@@ -209,7 +254,6 @@
                         </div>
                     </div>
 
-                    <!-- Guardian Name -->
                     <div>
                         <label id="lbl-guardian-name" class="block text-sm font-semibold text-slate-300 mb-1.5">
                             Guardian Name (Optional)
@@ -221,17 +265,14 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        <!-- Department / Section -->
                         <div>
                             <label id="lbl-section" class="block text-sm font-semibold text-slate-300 mb-1.5">
                                 Department / Section <span class="text-rose-400">*</span>
                             </label>
                             <select id="section-select" required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
-                                <!-- Populated dynamically based on language -->
                             </select>
                         </div>
 
-                        <!-- Grade -->
                         <div>
                             <label id="lbl-grade" class="block text-sm font-semibold text-slate-300 mb-1.5">
                                 Grade <span class="text-rose-400">*</span>
@@ -253,10 +294,9 @@
                         </div>
                     </div>
 
-                    <!-- Step 1 Error Message Notification -->
                     <div id="step1-error" class="hidden p-3 rounded-xl bg-rose-500/20 border border-rose-500/50 text-rose-300 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-circle-exclamation"></i>
-                        <span>Please fill in all required fields to proceed.</span>
+                        <span id="step1-error-text">Please fill in all required fields to proceed.</span>
                     </div>
 
                     <button type="submit" class="btn-3d w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-4 rounded-xl text-lg flex items-center justify-center gap-3 shadow-lg shadow-blue-500/25 mt-4">
@@ -266,10 +306,10 @@
                 </form>
             </div>
 
-            <!-- STEP 2: EVALUATION QUESTIONS FORM -->
+            <!-- STEP 2: EVALUATION FORM -->
             <div id="step-2-page" class="hidden glass-card-3d rounded-3xl p-6 md:p-10 border border-slate-700/60 shadow-2xl">
                 
-                <!-- Info Summary Header Bar -->
+                <!-- Summary Header -->
                 <div class="bg-slate-900/80 rounded-2xl p-4 border border-blue-500/30 flex flex-wrap items-center justify-between gap-4 mb-8">
                     <div class="flex flex-wrap items-center gap-4 text-sm">
                         <div>
@@ -300,10 +340,8 @@
 
                 <form id="evaluation-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
                     
-                    <!-- Container for 9 Evaluation Questions -->
                     <div id="questions-container" class="space-y-6"></div>
 
-                    <!-- Additional Suggestions / Notes -->
                     <div class="glass-card-3d rounded-2xl p-5 border border-slate-700/50">
                         <label id="lbl-comments" class="block font-bold text-white mb-2 text-base">
                             010. Additional Suggestions or Feedback for Improvement
@@ -323,9 +361,9 @@
                 </form>
             </div>
 
-            <!-- Submission Success Modal Alert -->
+            <!-- Submission Success Modal -->
             <div id="success-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
-                <div class="glass-card-3d rounded-3xl p-8 max-w-md w-full text-center border-2 border-emerald-500/50 shadow-2xl animate-bounce-short">
+                <div class="glass-card-3d rounded-3xl p-8 max-w-md w-full text-center border-2 border-emerald-500/50 shadow-2xl">
                     <div class="w-20 h-20 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border border-emerald-500/40">
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
@@ -377,7 +415,7 @@
                 </div>
             </div>
 
-            <!-- Key Performance Metrics (3D Cards) -->
+            <!-- Key Performance Metrics -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div class="glass-card-3d p-5 rounded-2xl border-l-4 border-blue-500">
                     <p id="stat-total-lbl" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Feedback</p>
@@ -410,12 +448,9 @@
                     <h3 id="table-heading" class="text-lg font-bold text-white">Guardian Responses Log</h3>
                     
                     <div class="flex items-center gap-3 w-full md:w-auto">
-                        <!-- Department Filter -->
                         <select id="filter-department" onchange="renderAdminTable()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
-                            <!-- Filter options populated dynamically -->
                         </select>
 
-                        <!-- Search Bar -->
                         <div class="relative w-full md:w-64">
                             <i class="fa-solid fa-search absolute left-3 top-2.5 text-slate-400 text-xs dir-rtl:right-3 dir-rtl:left-auto"></i>
                             <input type="text" id="search-input" onkeyup="renderAdminTable()" placeholder="Search guardian or student..." class="w-full bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl pl-9 pr-3 py-2 dir-rtl:pr-9 dir-rtl:pl-3 focus:outline-none focus:border-blue-500">
@@ -423,7 +458,6 @@
                     </div>
                 </div>
 
-                <!-- Table Wrapper -->
                 <div class="overflow-x-auto rounded-xl border border-slate-700/80">
                     <table class="w-full text-left dir-rtl:text-right text-xs">
                         <thead class="bg-slate-900/90 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-700">
@@ -438,7 +472,6 @@
                             </tr>
                         </thead>
                         <tbody id="reviews-table-body" class="divide-y divide-slate-800 text-slate-300">
-                            <!-- Populated dynamically -->
                         </tbody>
                     </table>
                 </div>
@@ -448,7 +481,7 @@
 
     </main>
 
-    <!-- ADMIN LOGIN PASSCODE MODAL -->
+    <!-- ADMIN LOGIN MODAL -->
     <div id="admin-passcode-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-card-3d rounded-3xl p-6 md:p-8 max-w-md w-full border border-indigo-500/40 shadow-2xl">
             <div class="flex items-center justify-between mb-6">
@@ -466,7 +499,6 @@
                     <label id="lbl-admin-role" class="block text-xs font-semibold text-slate-300 mb-1">Select Access Portal</label>
                     <select id="admin-role-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
                         <option value="SUPER_ADMIN">Super Admin (All Sections)</option>
-                        <!-- Section roles populated dynamically -->
                     </select>
                 </div>
 
@@ -502,7 +534,6 @@
             </div>
 
             <form onsubmit="saveNewPasscodes(event)" class="space-y-4">
-                <!-- Super Admin Passcode -->
                 <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-700">
                     <label class="block text-xs font-bold text-indigo-300 mb-1">Super Admin Passcode</label>
                     <input type="text" id="pass-edit-super" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:outline-none focus:border-indigo-500">
@@ -512,7 +543,6 @@
                 <p id="lbl-section-passcodes" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Section-Specific Passcodes</p>
 
                 <div id="section-passcode-inputs" class="space-y-3">
-                    <!-- Populated dynamically -->
                 </div>
 
                 <div id="passcode-save-success" class="hidden p-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2">
@@ -543,19 +573,39 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <!-- COMPLETE JAVASCRIPT APPLICATION LOGIC -->
     <script>
-        // Global State & Persistent Storage Keys
-        let currentLang = 'en'; // 'en' or 'ar'
-        let currentView = 'guardian'; // 'guardian' or 'admin'
-        let activeAdminRole = 'SUPER_ADMIN'; // 'SUPER_ADMIN' or department key
-        
-        // Active Step State for Guardian Form
+        // Global State & Data Definitions
+        let currentLang = 'en';
+        let currentView = 'guardian';
+        let activeAdminRole = 'SUPER_ADMIN';
         let currentStep = 1;
         let step1Data = { studentName: '', guardianName: '', section: '', grade: '' };
         let activeRatings = {};
 
-        // Language-Specific Departments Object
+        let reviews = JSON.parse(localStorage.getItem('sama_reviews')) || [
+            {
+                id: '101',
+                date: '2026-10-20',
+                studentName: 'Youssef Ahmed',
+                guardianName: 'Ahmed Mahmoud',
+                sectionKey: 'british_boys',
+                grade: 'G5',
+                ratings: { q1: 5, q2: 4, q3: 5, q4: 4, q5: 5, q6: 4, q7: 5, q8: 5, q9: 5 },
+                comments: 'Excellent academic follow-up.'
+            },
+            {
+                id: '102',
+                date: '2026-10-22',
+                studentName: 'Laila Mohamed',
+                guardianName: 'Mohamed Ali',
+                sectionKey: 'egyptian_girls',
+                grade: 'G3',
+                ratings: { q1: 4, q2: 4, q3: 3, q4: 4, q5: 4, q6: 3, q7: 4, q8: 5, q9: 4 },
+                comments: 'Great progress in Quran and religious studies.'
+            }
+        ];
+
         const DEPARTMENTS = {
             'british_kg': { en: "British KG Section", ar: "الروضة انترناشونال" },
             'british_girls': { en: "British Girls’ Section", ar: "انترناشونال بنات" },
@@ -565,7 +615,6 @@
             'egyptian_boys': { en: "Egyptian Boys’ Section", ar: "مسار مصري بنين" }
         };
 
-        // 9 Evaluation Criteria
         const EVALUATION_QUESTIONS = [
             { id: 'q1', en: "01. Students' educational outcome?", ar: "01. التحصيل الدراسي للطلاب؟" },
             { id: 'q2', en: "02. Students' understanding of the curricula?", ar: "02. استيعاب الطلاب المناهج الدراسية؟" },
@@ -578,7 +627,6 @@
             { id: 'q9', en: "09. In general, how satisfied are you with the school?", ar: "09. بشكل عام مدى الرضى عن المدرسة؟" }
         ];
 
-        // Default Passcodes Map
         let adminPasscodes = JSON.parse(localStorage.getItem('sama_passcodes')) || {
             SUPER_ADMIN: '1234',
             british_kg: '1234',
@@ -589,7 +637,6 @@
             egyptian_boys: '1234'
         };
 
-        // Translations Object
         const i18n = {
             en: {
                 appTitle: "Sama Onaizah International School",
@@ -689,42 +736,36 @@
             }
         };
 
-        // Initialize Reviews Data Storage
-        let reviews = JSON.parse(localStorage.getItem('sama_reviews')) || [
-            {
-                id: '101',
-                date: '2026-10-20',
-                studentName: 'Youssef Ahmed',
-                guardianName: 'Ahmed Mahmoud',
-                sectionKey: 'british_boys',
-                grade: 'G5',
-                ratings: { q1: 5, q2: 4, q3: 5, q4: 4, q5: 5, q6: 4, q7: 5, q8: 5, q9: 5 },
-                comments: 'Excellent academic follow-up.'
-            },
-            {
-                id: '102',
-                date: '2026-10-22',
-                studentName: 'Laila Mohamed',
-                guardianName: 'Mohamed Ali',
-                sectionKey: 'egyptian_girls',
-                grade: 'G3',
-                ratings: { q1: 4, q2: 4, q3: 3, q4: 4, q5: 4, q6: 3, q7: 4, q8: 5, q9: 4 },
-                comments: 'Great progress in Quran and religious studies.'
-            }
-        ];
-
-        // DOM Initialization
+        // Window Load Handler
         window.onload = function() {
             populateDepartmentSelects();
             renderEvaluationQuestions();
             updateUI();
         };
 
-        // Toggle Language Handler
+        // Populate Select Menus
+        function populateDepartmentSelects() {
+            const secSelect = document.getElementById('section-select');
+            const filterSelect = document.getElementById('filter-department');
+            const adminRoleSelect = document.getElementById('admin-role-select');
+
+            secSelect.innerHTML = `<option value="">${currentLang === 'ar' ? '-- اختر القسم --' : '-- Select Section --'}</option>`;
+            filterSelect.innerHTML = `<option value="ALL">${i18n[currentLang].optFilterAllDept}</option>`;
+            adminRoleSelect.innerHTML = `<option value="SUPER_ADMIN">Super Admin (All Sections)</option>`;
+
+            Object.keys(DEPARTMENTS).forEach(key => {
+                const label = DEPARTMENTS[key][currentLang];
+                secSelect.innerHTML += `<option value="${key}">${label}</option>`;
+                filterSelect.innerHTML += `<option value="${key}">${label}</option>`;
+                adminRoleSelect.innerHTML += `<option value="${key}">${label}</option>`;
+            });
+        }
+
+        // Toggle Language
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
-            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = currentLang;
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.documentElement.setAttribute('lang', currentLang);
 
             populateDepartmentSelects();
             renderEvaluationQuestions();
@@ -735,206 +776,178 @@
             }
         }
 
-        // Populate Department Select Dropdowns with Only Current Active Language
-        function populateDepartmentSelects() {
-            const sectionSelect = document.getElementById('section-select');
-            const filterDept = document.getElementById('filter-department');
-            const roleSelect = document.getElementById('admin-role-select');
-
-            const currentSectionVal = sectionSelect.value;
-            const currentFilterVal = filterDept.value;
-
-            // Step 1 Form Select
-            sectionSelect.innerHTML = `<option value="">-- ${currentLang === 'ar' ? 'اختر القسم' : 'Select Section'} --</option>`;
-            Object.keys(DEPARTMENTS).forEach(key => {
-                const label = DEPARTMENTS[key][currentLang];
-                sectionSelect.innerHTML += `<option value="${key}">${label}</option>`;
-            });
-            if (currentSectionVal) sectionSelect.value = currentSectionVal;
-
-            // Admin Filter Select
-            filterDept.innerHTML = `<option value="ALL" id="opt-filter-all-dept">${i18n[currentLang].optFilterAllDept}</option>`;
-            Object.keys(DEPARTMENTS).forEach(key => {
-                const label = DEPARTMENTS[key][currentLang];
-                filterDept.innerHTML += `<option value="${key}">${label}</option>`;
-            });
-            if (currentFilterVal) filterDept.value = currentFilterVal;
-
-            // Admin Role Select
-            roleSelect.innerHTML = `<option value="SUPER_ADMIN">Super Admin (${currentLang === 'ar' ? 'جميع الأقسام' : 'All Sections'})</option>`;
-            Object.keys(DEPARTMENTS).forEach(key => {
-                const label = DEPARTMENTS[key][currentLang];
-                roleSelect.innerHTML += `<option value="${key}">${label}</option>`;
-            });
-        }
-
-        // Update All Interface Labels
+        // Update Text Labels
         function updateUI() {
-            const lang = i18n[currentLang];
+            const t = i18n[currentLang];
 
-            document.getElementById('app-title').innerText = lang.appTitle;
-            document.getElementById('app-subtitle').innerText = lang.appSubtitle;
-            document.getElementById('lang-btn-text').innerText = lang.langBtnText;
-            document.getElementById('view-btn-text').innerText = lang.adminAccessBtn;
+            document.getElementById('app-title').innerText = t.appTitle;
+            document.getElementById('app-subtitle').innerText = t.appSubtitle;
+            document.getElementById('lang-btn-text').innerText = t.langBtnText;
+            document.getElementById('view-btn-text').innerText = t.adminAccessBtn;
 
-            document.getElementById('step1-title').innerText = lang.step1Title;
-            document.getElementById('step1-desc').innerText = lang.step1Desc;
-            document.getElementById('step2-title').innerText = lang.step2Title;
-            document.getElementById('step2-desc').innerText = lang.step2Desc;
+            document.getElementById('step1-title').innerText = t.step1Title;
+            document.getElementById('step1-desc').innerText = t.step1Desc;
+            document.getElementById('step2-title').innerText = t.step2Title;
+            document.getElementById('step2-desc').innerText = t.step2Desc;
 
-            document.getElementById('step1-heading').innerText = lang.step1Heading;
-            document.getElementById('step1-subheading').innerText = lang.step1Subheading;
-            document.getElementById('lbl-student-name').innerHTML = `${lang.lblStudentName} <span class="text-rose-400">*</span>`;
-            document.getElementById('lbl-guardian-name').innerText = lang.lblGuardianName;
-            document.getElementById('lbl-section').innerHTML = `${lang.lblSection} <span class="text-rose-400">*</span>`;
-            document.getElementById('lbl-grade').innerHTML = `${lang.lblGrade} <span class="text-rose-400">*</span>`;
-            document.getElementById('btn-next-text').innerText = lang.btnNextText;
+            document.getElementById('step1-heading').innerText = t.step1Heading;
+            document.getElementById('step1-subheading').innerText = t.step1Subheading;
 
-            // Step 1 Error Message Update
-            document.getElementById('step1-error').innerText = lang.step1Error;
+            document.getElementById('lbl-student-name').innerHTML = `${t.lblStudentName} <span class="text-rose-400">*</span>`;
+            document.getElementById('lbl-guardian-name').innerText = t.lblGuardianName;
+            document.getElementById('lbl-section').innerHTML = `${t.lblSection} <span class="text-rose-400">*</span>`;
+            document.getElementById('lbl-grade').innerHTML = `${t.lblGrade} <span class="text-rose-400">*</span>`;
+            document.getElementById('btn-next-text').innerText = t.btnNextText;
 
-            document.getElementById('sum-lbl-student').innerText = lang.sumStudent;
-            document.getElementById('sum-lbl-section').innerText = lang.sumSection;
-            document.getElementById('sum-lbl-grade').innerText = lang.sumGrade;
-            document.getElementById('btn-edit-info').innerText = lang.btnEditInfo;
+            document.getElementById('step1-error-text').innerText = t.step1Error;
 
-            document.getElementById('eval-title').innerText = lang.evalTitle;
-            document.getElementById('eval-subtitle').innerText = lang.evalSubtitle;
-            document.getElementById('lbl-comments').innerText = lang.lblComments;
-            document.getElementById('btn-back').innerText = lang.btnBack;
-            document.getElementById('btn-submit').innerText = lang.btnSubmit;
+            document.getElementById('sum-lbl-student').innerText = t.sumStudent;
+            document.getElementById('sum-lbl-section').innerText = t.sumSection;
+            document.getElementById('sum-lbl-grade').innerText = t.sumGrade;
+            document.getElementById('btn-edit-info').innerText = t.btnEditInfo;
 
-            document.getElementById('modal-success-title').innerText = lang.modalSuccessTitle;
-            document.getElementById('modal-success-msg').innerText = lang.modalSuccessMsg;
-            document.getElementById('btn-close-success').innerText = lang.btnCloseSuccess;
+            document.getElementById('eval-title').innerText = t.evalTitle;
+            document.getElementById('eval-subtitle').innerText = t.evalSubtitle;
+            document.getElementById('lbl-comments').innerText = t.lblComments;
+            document.getElementById('btn-back').innerText = t.btnBack;
+            document.getElementById('btn-submit').innerText = t.btnSubmit;
 
-            // Admin View
-            document.getElementById('admin-title').innerText = lang.adminTitle;
-            document.getElementById('btn-edit-passcodes').innerText = lang.btnManagePass;
-            document.getElementById('btn-export-excel').innerText = lang.btnExportExcel;
-            document.getElementById('btn-exit-admin').innerText = lang.btnExitAdmin;
+            document.getElementById('modal-success-title').innerText = t.modalSuccessTitle;
+            document.getElementById('modal-success-msg').innerText = t.modalSuccessMsg;
+            document.getElementById('btn-close-success').innerText = t.btnCloseSuccess;
 
-            document.getElementById('stat-total-lbl').innerText = lang.statTotal;
-            document.getElementById('stat-avg-lbl').innerText = lang.statAvg;
-            document.getElementById('stat-outcome-lbl').innerText = lang.statOutcome;
-            document.getElementById('stat-comm-lbl').innerText = lang.statComm;
+            document.getElementById('admin-title').innerText = t.adminTitle;
+            document.getElementById('btn-edit-passcodes').innerText = t.btnManagePass;
+            document.getElementById('btn-export-excel').innerText = t.btnExportExcel;
+            document.getElementById('btn-exit-admin').innerText = t.btnExitAdmin;
 
-            document.getElementById('table-heading').innerText = lang.tableHeading;
-            document.getElementById('th-date').innerText = lang.thDate;
-            document.getElementById('th-student').innerText = lang.thStudent;
-            document.getElementById('th-guardian').innerText = lang.thGuardian;
-            document.getElementById('th-section').innerText = lang.thSection;
-            document.getElementById('th-grade').innerText = lang.thGrade;
-            document.getElementById('th-overall').innerText = lang.thOverall;
-            document.getElementById('th-actions').innerText = lang.thActions;
+            document.getElementById('stat-total-lbl').innerText = t.statTotal;
+            document.getElementById('stat-avg-lbl').innerText = t.statAvg;
+            document.getElementById('stat-outcome-lbl').innerText = t.statOutcome;
+            document.getElementById('stat-comm-lbl').innerText = t.statComm;
+
+            document.getElementById('table-heading').innerText = t.tableHeading;
+            document.getElementById('th-date').innerText = t.thDate;
+            document.getElementById('th-student').innerText = t.thStudent;
+            document.getElementById('th-guardian').innerText = t.thGuardian;
+            document.getElementById('th-section').innerText = t.thSection;
+            document.getElementById('th-grade').innerText = t.thGrade;
+            document.getElementById('th-overall').innerText = t.thOverall;
+            document.getElementById('th-actions').innerText = t.thActions;
         }
 
-        // Step 1 Submission & Validation Handler
-        function handleProceedToStep2(e) {
-            e.preventDefault();
-            const studentName = document.getElementById('student-name').value.trim();
-            const guardianName = document.getElementById('guardian-name').value.trim();
-            const section = document.getElementById('section-select').value;
-            const grade = document.getElementById('grade-select').value;
-
-            const errorDiv = document.getElementById('step1-error');
-
-            if (!studentName || !section || !grade) {
-                errorDiv.innerText = i18n[currentLang].step1Error;
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-
-            errorDiv.classList.add('hidden');
-
-            step1Data = { studentName, guardianName: guardianName || 'N/A', section, grade };
-
-            // Update Summary Header on Step 2
-            document.getElementById('summary-student').innerText = step1Data.studentName;
-            document.getElementById('summary-section').innerText = DEPARTMENTS[step1Data.section][currentLang];
-            document.getElementById('summary-grade').innerText = step1Data.grade;
-
-            // Transition to Step 2
-            currentStep = 2;
-            document.getElementById('step-1-page').classList.add('hidden');
-            document.getElementById('step-2-page').classList.remove('hidden');
-
-            // Update Step Indicators
-            const s1Ind = document.getElementById('step1-indicator');
-            const s2Ind = document.getElementById('step2-indicator');
-
-            s1Ind.className = "w-10 h-10 rounded-xl step-completed flex items-center justify-center font-bold text-white shadow-md";
-            s1Ind.innerHTML = '<i class="fa-solid fa-check"></i>';
-
-            s2Ind.className = "w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md";
-            document.getElementById('step2-title').classList.replace('text-slate-400', 'text-white');
-            document.getElementById('step2-desc').classList.replace('text-slate-400', 'text-blue-300');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Return to Step 1
-        function backToStep1() {
-            currentStep = 1;
-            document.getElementById('step-2-page').classList.add('hidden');
-            document.getElementById('step-1-page').classList.remove('hidden');
-
-            const s1Ind = document.getElementById('step1-indicator');
-            const s2Ind = document.getElementById('step2-indicator');
-
-            s1Ind.className = "w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md";
-            s1Ind.innerHTML = '1';
-
-            s2Ind.className = "w-10 h-10 rounded-xl step-inactive flex items-center justify-center font-bold text-slate-400";
-        }
-
-        // Render 9 Questions into Step 2 Container
+        // Render Questions Component
         function renderEvaluationQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
 
             EVALUATION_QUESTIONS.forEach(q => {
-                const qText = q[currentLang];
-                const activeVal = activeRatings[q.id] || 0;
+                const selectedVal = activeRatings[q.id] || 0;
 
                 let starsHtml = '';
                 for (let i = 1; i <= 5; i++) {
-                    const isSelected = i <= activeVal;
-                    const starColor = isSelected ? 'text-amber-400' : 'text-slate-600';
+                    const isFilled = i <= selectedVal;
+                    const starColor = isFilled ? 'text-amber-400' : 'text-slate-600';
                     starsHtml += `
-                        <button type="button" onclick="setRating('${q.id}', ${i})" class="star-btn p-1.5 text-2xl focus:outline-none ${starColor}">
+                        <button type="button" onclick="setRating('${q.id}', ${i})" class="star-btn ${starColor} text-2xl md:text-3xl focus:outline-none p-1">
                             <i class="fa-solid fa-star"></i>
                         </button>
                     `;
                 }
 
                 container.innerHTML += `
-                    <div class="glass-card-3d rounded-2xl p-5 border border-slate-700/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div class="md:w-3/5">
-                            <p class="font-semibold text-white text-sm md:text-base leading-relaxed">${qText}</p>
-                        </div>
-                        <div class="flex items-center gap-1 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 self-start md:self-auto">
+                    <div class="glass-card-3d rounded-2xl p-5 border border-slate-700/50 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                        <p class="text-sm md:text-base font-bold text-white flex-1">${q[currentLang]}</p>
+                        <div class="flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-800 self-center md:self-auto">
                             ${starsHtml}
-                            <span class="text-xs font-bold text-slate-400 ml-2 dir-rtl:mr-2 dir-rtl:ml-0 min-w-[3rem] text-center">
-                                ${activeVal ? activeVal + ' / 5' : '-'}
-                            </span>
                         </div>
                     </div>
                 `;
             });
         }
 
-        // Handle Star Rating Click
         function setRating(qId, val) {
             activeRatings[qId] = val;
             renderEvaluationQuestions();
         }
 
-        // Handle Final Review Submission
-        function handleFormSubmit(e) {
+        // Proceed to Step 2
+        function handleProceedToStep2(e) {
             e.preventDefault();
 
-            // Validate all 9 ratings selected
+            const student = document.getElementById('student-name').value.trim();
+            const guardian = document.getElementById('guardian-name').value.trim() || 'N/A';
+            const section = document.getElementById('section-select').value;
+            const grade = document.getElementById('grade-select').value;
+
+            if (!student || !section || !grade) {
+                document.getElementById('step1-error').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('step1-error').classList.add('hidden');
+
+            step1Data = { studentName: student, guardianName: guardian, section, grade };
+
+            document.getElementById('summary-student').innerText = student;
+            document.getElementById('summary-section').innerText = DEPARTMENTS[section][currentLang];
+            document.getElementById('summary-grade').innerText = grade;
+
+            document.getElementById('step-1-page').classList.add('hidden');
+            document.getElementById('step-2-page').classList.remove('hidden');
+
+            const ind1 = document.getElementById('step1-indicator');
+            ind1.className = "w-10 h-10 rounded-xl step-completed flex items-center justify-center font-bold text-white shadow-md";
+
+            const ind2 = document.getElementById('step2-indicator');
+            ind2.className = "w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md";
+        }
+
+        function backToStep1() {
+            document.getElementById('step-2-page').classList.add('hidden');
+            document.getElementById('step-1-page').classList.remove('hidden');
+
+            const ind1 = document.getElementById('step1-indicator');
+            ind1.className = "w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md";
+
+            const ind2 = document.getElementById('step2-indicator');
+            ind2.className = "w-10 h-10 rounded-xl step-inactive flex items-center justify-center font-bold text-slate-400";
+        }
+
+        // Cloud Real-Time Listener
+        window.initRealtimeSync = function() {
+            if (!window.firebaseDb || !window.firebaseCollection) return;
+
+            try {
+                const reviewsCol = window.firebaseCollection(window.firebaseDb, 'artifacts', window.appId, 'public', 'data', 'reviews');
+                
+                window.firebaseOnSnapshot(reviewsCol, (snapshot) => {
+                    const loadedReviews = [];
+                    snapshot.forEach(doc => {
+                        loadedReviews.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    loadedReviews.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+                    
+                    if (loadedReviews.length > 0) {
+                        reviews = loadedReviews;
+                        localStorage.setItem('sama_reviews', JSON.stringify(reviews));
+                        if (currentView === 'admin') {
+                            renderAdminTable();
+                        }
+                    }
+                }, (error) => {
+                    console.error("Cloud listener error:", error);
+                });
+            } catch (err) {
+                console.error("Firestore initialization error:", err);
+            }
+        };
+
+        // Form Submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
             const missing = EVALUATION_QUESTIONS.some(q => !activeRatings[q.id]);
             if (missing) {
                 alert(currentLang === 'ar' ? 'يرجى إكمال جميع نقاط التقييم الـ 9 قبل الإرسال.' : 'Please rate all 9 evaluation points before submitting.');
@@ -942,8 +955,8 @@
             }
 
             const newReview = {
-                id: Date.now().toString(),
                 date: new Date().toISOString().split('T')[0],
+                createdAt: new Date().toISOString(),
                 studentName: step1Data.studentName,
                 guardianName: step1Data.guardianName,
                 sectionKey: step1Data.section,
@@ -952,14 +965,26 @@
                 comments: document.getElementById('comments-input').value.trim() || 'N/A'
             };
 
-            reviews.unshift(newReview);
-            localStorage.setItem('sama_reviews', JSON.stringify(reviews));
+            if (window.firebaseDb && window.firebaseAuth?.currentUser && window.firebaseCollection) {
+                try {
+                    const reviewsCol = window.firebaseCollection(window.firebaseDb, 'artifacts', window.appId, 'public', 'data', 'reviews');
+                    const docRef = await window.firebaseAddDoc(reviewsCol, newReview);
+                    newReview.id = docRef.id;
+                } catch (err) {
+                    console.warn("Cloud save failed, saving locally:", err);
+                    newReview.id = Date.now().toString();
+                    reviews.unshift(newReview);
+                    localStorage.setItem('sama_reviews', JSON.stringify(reviews));
+                }
+            } else {
+                newReview.id = Date.now().toString();
+                reviews.unshift(newReview);
+                localStorage.setItem('sama_reviews', JSON.stringify(reviews));
+            }
 
-            // Show Success Modal
             document.getElementById('success-modal').classList.remove('hidden');
         }
 
-        // Reset Guardian Form
         function resetForm() {
             document.getElementById('success-modal').classList.add('hidden');
             document.getElementById('info-form').reset();
@@ -968,7 +993,7 @@
             backToStep1();
         }
 
-        // ADMIN ACCESS & PASSCODE ROUTINES
+        // Admin Access & Passcode Operations
         function openAdminModal() {
             document.getElementById('admin-passcode-modal').classList.remove('hidden');
             document.getElementById('passcode-error').classList.add('hidden');
@@ -1016,7 +1041,7 @@
             document.getElementById('guardian-view').classList.remove('hidden');
         }
 
-        // Render Admin Data Table & Compute Stats
+        // Render Admin Data Table
         function renderAdminTable() {
             const tableBody = document.getElementById('reviews-table-body');
             const deptFilter = document.getElementById('filter-department').value;
@@ -1024,7 +1049,6 @@
 
             tableBody.innerHTML = '';
 
-            // Filter reviews based on section role access
             let filtered = reviews.filter(r => {
                 if (activeAdminRole !== 'SUPER_ADMIN' && r.sectionKey !== activeAdminRole) return false;
                 if (deptFilter !== 'ALL' && r.sectionKey !== deptFilter) return false;
@@ -1036,7 +1060,6 @@
                 return true;
             });
 
-            // Calculate Metrics
             const total = filtered.length;
             let sumOverall = 0;
             let sumOutcome = 0;
@@ -1097,7 +1120,6 @@
             });
         }
 
-        // View Full Review Details Modal
         function viewReviewDetail(id) {
             const review = reviews.find(r => r.id === id);
             if (!review) return;
@@ -1137,7 +1159,6 @@
             document.getElementById('detail-modal').classList.add('hidden');
         }
 
-        // Manage Passcodes Modal Logic
         function openPasscodeEditModal() {
             if (activeAdminRole !== 'SUPER_ADMIN') {
                 alert(currentLang === 'ar' ? 'تعديل كلمات المرور متاح فقط للمدير العام.' : 'Passcode management is restricted to Super Admin.');
@@ -1184,7 +1205,6 @@
             }, 1200);
         }
 
-        // Export All Reviews to Formatted Excel (.xlsx) Sheet
         function exportToExcel() {
             if (reviews.length === 0) {
                 alert(currentLang === 'ar' ? 'لا توجد بيانات للتصدير' : 'No review data to export.');
@@ -1202,7 +1222,6 @@
                     'Grade': r.grade,
                 };
 
-                // Add 9 Evaluation Points
                 EVALUATION_QUESTIONS.forEach(q => {
                     row[q.en] = r.ratings[q.id] || 0;
                 });
@@ -1215,7 +1234,6 @@
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Guardians Feedback");
 
-            // Auto-fit Column Widths
             const max_cols = Object.keys(exportData[0]).length;
             worksheet['!cols'] = Array(max_cols).fill({ wch: 22 });
 
