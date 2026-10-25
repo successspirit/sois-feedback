@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sama Onaizah International School Guardians' Feedback</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SheetJS for Excel Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <!-- Inter & Cairo Fonts for AR/EN Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --font-en: 'Inter', sans-serif;
+            --font-ar: 'Cairo', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-en);
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #0f172a 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+        }
+
+        [dir="rtl"] body {
+            font-family: var(--font-ar);
+        }
+
+        /* 3D Glassmorphism Cards */
+        .glass-card-3d {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        .glass-card-3d:hover {
+            transform: translateY(-4px) scale(1.005);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6),
+                        0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Tactile 3D Buttons */
+        .btn-3d {
+            position: relative;
+            transition: all 0.15s ease;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4), 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-3d:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 rgba(0, 0, 0, 0.4), 0 14px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-3d:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Star Rating Hover & Active Animation */
+        .star-btn {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+        }
+
+        .star-btn:hover {
+            transform: scale(1.35) rotate(-5deg);
+        }
+
+        /* Step Progress Bar */
+        .step-active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+
+        .step-completed {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .step-inactive {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="p-3 md:p-8 relative selection:bg-blue-500 selection:text-white">
+
+    <!-- Ambient Floating Background Blobs for 3D Lighting Effect -->
+    <div class="fixed top-10 left-10 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none animate-pulse"></div>
+    <div class="fixed bottom-10 right-10 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Navigation Header -->
+    <header class="max-w-6xl mx-auto mb-8">
+        <div class="glass-card-3d rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-center justify-between gap-4 border-b-2 border-blue-500/30">
+            <!-- Logo & School Branding -->
+            <div class="flex items-center gap-4 text-center md:text-left">
+                <div class="relative group">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-500 p-1 shadow-lg shadow-blue-500/30 group-hover:rotate-6 transition-transform duration-300">
+                        <div class="w-full h-full bg-slate-900 rounded-xl p-1.5 flex items-center justify-center overflow-hidden">
+                            <!-- SVG Replica of Sama Onaizah Logo -->
+                            <svg class="w-full h-full text-blue-400" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="50" cy="45" r="32" stroke="#38bdf8" stroke-width="3.5" fill="#0284c7" fill-opacity="0.2"/>
+                                <path d="M 20 45 A 30 20 0 0 0 80 45" stroke="#38bdf8" stroke-width="2.5" fill="none"/>
+                                <path d="M 25 32 A 28 15 0 0 0 75 32" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                                <path d="M 25 58 A 28 15 0 0 1 75 58" stroke="#38bdf8" stroke-width="2" fill="none"/>
+                                <line x1="50" y1="13" x2="50" y2="77" stroke="#38bdf8" stroke-width="2.5"/>
+                                <line x1="18" y1="45" x2="82" y2="45" stroke="#38bdf8" stroke-width="2.5"/>
+                                <path d="M 12 85 C 30 70, 70 70, 88 85 M 20 90 C 35 78, 65 78, 80 90" stroke="#10b981" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h1 id="app-title" class="text-xl md:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-indigo-200 to-white tracking-wide">
+                        Sama Onaizah International School
+                    </h1>
+                    <p id="app-subtitle" class="text-xs md:text-sm text-blue-300 font-medium">
+                        Guardians' Feedback & Quality Assurance Platform
+                    </p>
+                </div>
+            </div>
+
+            <!-- Language Toggle & Admin Switcher Controls -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" class="btn-3d bg-slate-800 hover:bg-slate-700 text-blue-300 border border-blue-500/40 font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-globe text-blue-400"></i>
+                    <span id="lang-btn-text">العربية</span>
+                </button>
+
+                <button id="view-toggle-btn" onclick="openAdminModal()" class="btn-3d bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span id="view-btn-text">Admin Access</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main class="max-w-6xl mx-auto">
+
+        <!-- GUARDIAN VIEW -->
+        <div id="guardian-view" class="space-y-6">
+
+            <!-- Wizard Progress Indicator -->
+            <div class="glass-card-3d rounded-2xl p-4 flex items-center justify-between max-w-xl mx-auto">
+                <div class="flex items-center gap-3">
+                    <div id="step1-indicator" class="w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md">1</div>
+                    <div>
+                        <p id="step1-title" class="text-xs text-slate-400 font-semibold">STEP 1</p>
+                        <p id="step1-desc" class="text-sm font-bold text-white">Student Info</p>
+                    </div>
+                </div>
+
+                <div class="w-12 md:w-24 h-1 bg-slate-700 rounded-full"></div>
+
+                <div class="flex items-center gap-3">
+                    <div id="step2-indicator" class="w-10 h-10 rounded-xl step-inactive flex items-center justify-center font-bold text-slate-400">2</div>
+                    <div>
+                        <p id="step2-title" class="text-xs text-slate-400 font-semibold">STEP 2</p>
+                        <p id="step2-desc" class="text-sm font-bold text-slate-400">Evaluation</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STEP 1: LOGIN / STUDENT & GUARDIAN INFORMATION PAGE -->
+            <div id="step-1-page" class="max-w-2xl mx-auto glass-card-3d rounded-3xl p-6 md:p-10 border border-slate-700/60 shadow-2xl">
+                <div class="text-center mb-8">
+                    <div class="w-16 h-16 mx-auto mb-3 bg-blue-500/20 text-blue-400 rounded-2xl flex items-center justify-center text-2xl shadow-inner border border-blue-500/30">
+                        <i class="fa-solid fa-id-card"></i>
+                    </div>
+                    <h2 id="step1-heading" class="text-2xl font-bold text-white">Student & Guardian Registration</h2>
+                    <p id="step1-subheading" class="text-sm text-slate-400 mt-1">Please enter student details to begin the feedback form</p>
+                </div>
+
+                <form id="info-form" onsubmit="handleProceedToStep2(event)" class="space-y-5">
+                    <!-- Student Name -->
+                    <div>
+                        <label id="lbl-student-name" class="block text-sm font-semibold text-slate-300 mb-1.5">
+                            Student Name <span class="text-rose-400">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user-graduate absolute left-4 top-3.5 text-slate-400 dir-rtl:right-4 dir-rtl:left-auto"></i>
+                            <input type="text" id="student-name" required placeholder="e.g. Ahmed Ali" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-11 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
+                        </div>
+                    </div>
+
+                    <!-- Guardian Name -->
+                    <div>
+                        <label id="lbl-guardian-name" class="block text-sm font-semibold text-slate-300 mb-1.5">
+                            Guardian Name (Optional)
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user-shield absolute left-4 top-3.5 text-slate-400 dir-rtl:right-4 dir-rtl:left-auto"></i>
+                            <input type="text" id="guardian-name" placeholder="e.g. Mohamed Ali" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-11 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Department / Section -->
+                        <div>
+                            <label id="lbl-section" class="block text-sm font-semibold text-slate-300 mb-1.5">
+                                Department / Section <span class="text-rose-400">*</span>
+                            </label>
+                            <select id="section-select" required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
+                                <!-- Populated dynamically based on language -->
+                            </select>
+                        </div>
+
+                        <!-- Grade -->
+                        <div>
+                            <label id="lbl-grade" class="block text-sm font-semibold text-slate-300 mb-1.5">
+                                Grade <span class="text-rose-400">*</span>
+                            </label>
+                            <select id="grade-select" required class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition">
+                                <option value="">-- Select Grade --</option>
+                                <option value="KG1">KG1</option>
+                                <option value="KG2">KG2</option>
+                                <option value="G1">Grade 1 (G1)</option>
+                                <option value="G2">Grade 2 (G2)</option>
+                                <option value="G3">Grade 3 (G3)</option>
+                                <option value="G4">Grade 4 (G4)</option>
+                                <option value="G5">Grade 5 (G5)</option>
+                                <option value="G6">Grade 6 (G6)</option>
+                                <option value="G7">Grade 7 (G7)</option>
+                                <option value="G8">Grade 8 (G8)</option>
+                                <option value="G9">Grade 9 (G9)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Step 1 Error Message Notification -->
+                    <div id="step1-error" class="hidden p-3 rounded-xl bg-rose-500/20 border border-rose-500/50 text-rose-300 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Please fill in all required fields to proceed.</span>
+                    </div>
+
+                    <button type="submit" class="btn-3d w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-500 hover:to-indigo-500 text-white font-black py-4 rounded-xl text-lg flex items-center justify-center gap-3 shadow-lg shadow-blue-500/25 mt-4">
+                        <span id="btn-next-text">Proceed to Evaluation</span>
+                        <i class="fa-solid fa-arrow-right dir-rtl:rotate-180"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- STEP 2: EVALUATION QUESTIONS FORM -->
+            <div id="step-2-page" class="hidden glass-card-3d rounded-3xl p-6 md:p-10 border border-slate-700/60 shadow-2xl">
+                
+                <!-- Info Summary Header Bar -->
+                <div class="bg-slate-900/80 rounded-2xl p-4 border border-blue-500/30 flex flex-wrap items-center justify-between gap-4 mb-8">
+                    <div class="flex flex-wrap items-center gap-4 text-sm">
+                        <div>
+                            <span class="text-slate-400 block text-xs" id="sum-lbl-student">Student:</span>
+                            <span id="summary-student" class="font-bold text-blue-300"></span>
+                        </div>
+                        <div class="h-8 w-px bg-slate-700 hidden sm:block"></div>
+                        <div>
+                            <span class="text-slate-400 block text-xs" id="sum-lbl-section">Section:</span>
+                            <span id="summary-section" class="font-bold text-indigo-300"></span>
+                        </div>
+                        <div class="h-8 w-px bg-slate-700 hidden sm:block"></div>
+                        <div>
+                            <span class="text-slate-400 block text-xs" id="sum-lbl-grade">Grade:</span>
+                            <span id="summary-grade" class="font-bold text-emerald-300"></span>
+                        </div>
+                    </div>
+                    <button onclick="backToStep1()" class="text-xs text-blue-400 hover:text-blue-300 underline font-semibold flex items-center gap-1">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <span id="btn-edit-info">Edit Details</span>
+                    </button>
+                </div>
+
+                <div class="mb-6">
+                    <h2 id="eval-title" class="text-2xl font-bold text-white">School Evaluation Criteria</h2>
+                    <p id="eval-subtitle" class="text-sm text-slate-400">Please rate your experience on a scale of 1 to 5 stars for each evaluation point below</p>
+                </div>
+
+                <form id="evaluation-form" onsubmit="handleFormSubmit(event)" class="space-y-6">
+                    
+                    <!-- Container for 9 Evaluation Questions -->
+                    <div id="questions-container" class="space-y-6"></div>
+
+                    <!-- Additional Suggestions / Notes -->
+                    <div class="glass-card-3d rounded-2xl p-5 border border-slate-700/50">
+                        <label id="lbl-comments" class="block font-bold text-white mb-2 text-base">
+                            010. Additional Suggestions or Feedback for Improvement
+                        </label>
+                        <textarea id="comments-input" rows="3" placeholder="Share your suggestions..." class="w-full bg-slate-900/90 border border-slate-700 rounded-xl p-3 text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition text-sm"></textarea>
+                    </div>
+
+                    <div class="flex items-center gap-4 pt-4">
+                        <button type="button" onclick="backToStep1()" class="btn-3d w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-4 rounded-xl text-base">
+                            <span id="btn-back">Back</span>
+                        </button>
+                        <button type="submit" class="btn-3d w-2/3 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-500 hover:from-emerald-500 hover:to-teal-500 text-white font-black py-4 rounded-xl text-lg flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span id="btn-submit">Submit Feedback</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Submission Success Modal Alert -->
+            <div id="success-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+                <div class="glass-card-3d rounded-3xl p-8 max-w-md w-full text-center border-2 border-emerald-500/50 shadow-2xl animate-bounce-short">
+                    <div class="w-20 h-20 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center text-4xl mx-auto mb-4 border border-emerald-500/40">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 id="modal-success-title" class="text-2xl font-black text-white mb-2">Thank You!</h3>
+                    <p id="modal-success-msg" class="text-slate-300 text-sm mb-6">Your feedback has been successfully submitted to Sama Onaizah International School leadership.</p>
+                    <button onclick="resetForm()" class="btn-3d w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl">
+                        <span id="btn-close-success">Submit Another Review</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ADMIN DASHBOARD VIEW -->
+        <div id="admin-view" class="hidden space-y-6">
+
+            <!-- Admin Toolbar Header -->
+            <div class="glass-card-3d rounded-2xl p-6 border-b-2 border-indigo-500/30 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-400 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 id="admin-title" class="text-xl font-black text-white">Management Dashboard</h2>
+                            <span id="admin-badge" class="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-xs px-2.5 py-0.5 rounded-full font-bold">
+                                Super Admin
+                            </span>
+                        </div>
+                        <p id="admin-subtitle" class="text-xs text-slate-400">Review analytics and export guardian evaluations</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 flex-wrap">
+                    <button onclick="openPasscodeEditModal()" class="btn-3d bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-indigo-500/40 font-bold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-key"></i>
+                        <span id="btn-edit-passcodes">Manage Passcodes</span>
+                    </button>
+
+                    <button onclick="exportToExcel()" class="btn-3d bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm flex items-center gap-2 shadow-lg shadow-emerald-600/20">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <span id="btn-export-excel">Export to Excel (.xlsx)</span>
+                    </button>
+
+                    <button onclick="exitAdminView()" class="btn-3d bg-rose-600/80 hover:bg-rose-500 text-white font-bold px-4 py-2.5 rounded-xl text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span id="btn-exit-admin">Exit Admin</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Key Performance Metrics (3D Cards) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="glass-card-3d p-5 rounded-2xl border-l-4 border-blue-500">
+                    <p id="stat-total-lbl" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Feedback</p>
+                    <p id="stat-total-val" class="text-3xl font-black text-white mt-1">0</p>
+                    <p class="text-xs text-blue-400 mt-2"><i class="fa-solid fa-users"></i> Guardian Responses</p>
+                </div>
+
+                <div class="glass-card-3d p-5 rounded-2xl border-l-4 border-amber-500">
+                    <p id="stat-avg-lbl" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Overall Satisfaction</p>
+                    <p id="stat-avg-val" class="text-3xl font-black text-amber-400 mt-1">0.0 / 5</p>
+                    <p class="text-xs text-amber-400/80 mt-2"><i class="fa-solid fa-star"></i> Average Rating</p>
+                </div>
+
+                <div class="glass-card-3d p-5 rounded-2xl border-l-4 border-emerald-500">
+                    <p id="stat-outcome-lbl" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Educational Outcome</p>
+                    <p id="stat-outcome-val" class="text-3xl font-black text-emerald-400 mt-1">0.0 / 5</p>
+                    <p class="text-xs text-emerald-400/80 mt-2"><i class="fa-solid fa-graduation-cap"></i> Q1 Score</p>
+                </div>
+
+                <div class="glass-card-3d p-5 rounded-2xl border-l-4 border-indigo-500">
+                    <p id="stat-comm-lbl" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Parent Communication</p>
+                    <p id="stat-comm-val" class="text-3xl font-black text-indigo-400 mt-1">0.0 / 5</p>
+                    <p class="text-xs text-indigo-400/80 mt-2"><i class="fa-solid fa-comments"></i> Q7 Score</p>
+                </div>
+            </div>
+
+            <!-- Filters & Data Table -->
+            <div class="glass-card-3d rounded-2xl p-6 border border-slate-700/60">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <h3 id="table-heading" class="text-lg font-bold text-white">Guardian Responses Log</h3>
+                    
+                    <div class="flex items-center gap-3 w-full md:w-auto">
+                        <!-- Department Filter -->
+                        <select id="filter-department" onchange="renderAdminTable()" class="bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl px-3 py-2 focus:outline-none focus:border-blue-500">
+                            <!-- Filter options populated dynamically -->
+                        </select>
+
+                        <!-- Search Bar -->
+                        <div class="relative w-full md:w-64">
+                            <i class="fa-solid fa-search absolute left-3 top-2.5 text-slate-400 text-xs dir-rtl:right-3 dir-rtl:left-auto"></i>
+                            <input type="text" id="search-input" onkeyup="renderAdminTable()" placeholder="Search guardian or student..." class="w-full bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-xl pl-9 pr-3 py-2 dir-rtl:pr-9 dir-rtl:pl-3 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Wrapper -->
+                <div class="overflow-x-auto rounded-xl border border-slate-700/80">
+                    <table class="w-full text-left dir-rtl:text-right text-xs">
+                        <thead class="bg-slate-900/90 text-slate-300 font-bold uppercase tracking-wider border-b border-slate-700">
+                            <tr>
+                                <th class="p-3.5" id="th-date">Date</th>
+                                <th class="p-3.5" id="th-student">Student</th>
+                                <th class="p-3.5" id="th-guardian">Guardian</th>
+                                <th class="p-3.5" id="th-section">Section</th>
+                                <th class="p-3.5" id="th-grade">Grade</th>
+                                <th class="p-3.5 text-center" id="th-overall">Overall</th>
+                                <th class="p-3.5" id="th-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reviews-table-body" class="divide-y divide-slate-800 text-slate-300">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ADMIN LOGIN PASSCODE MODAL -->
+    <div id="admin-passcode-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-card-3d rounded-3xl p-6 md:p-8 max-w-md w-full border border-indigo-500/40 shadow-2xl">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 id="modal-pass-title" class="text-xl font-bold text-white">Admin Security Authentication</h3>
+                </div>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <form onsubmit="verifyPasscode(event)" class="space-y-4">
+                <div>
+                    <label id="lbl-admin-role" class="block text-xs font-semibold text-slate-300 mb-1">Select Access Portal</label>
+                    <select id="admin-role-select" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500">
+                        <option value="SUPER_ADMIN">Super Admin (All Sections)</option>
+                        <!-- Section roles populated dynamically -->
+                    </select>
+                </div>
+
+                <div>
+                    <label id="lbl-passcode" class="block text-xs font-semibold text-slate-300 mb-1">Enter Security Passcode</label>
+                    <input type="password" id="passcode-input" required placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-white text-center tracking-widest text-lg focus:outline-none focus:border-indigo-500">
+                    <p class="text-[10px] text-slate-400 mt-1" id="passcode-hint">Default passcode: 1234</p>
+                </div>
+
+                <div id="passcode-error" class="hidden p-2.5 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <span id="passcode-error-text">Invalid security passcode.</span>
+                </div>
+
+                <button type="submit" class="btn-3d w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3.5 rounded-xl text-sm mt-2">
+                    <span id="btn-login-admin">Authenticate & Login</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MANAGE PASSCODES MODAL -->
+    <div id="passcode-edit-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-card-3d rounded-3xl p-6 md:p-8 max-w-lg w-full border border-indigo-500/40 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                        <i class="fa-solid fa-key"></i>
+                    </div>
+                    <h3 id="modal-manage-pass-title" class="text-xl font-bold text-white">Manage Admin Passcodes</h3>
+                </div>
+                <button onclick="closePasscodeEditModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <form onsubmit="saveNewPasscodes(event)" class="space-y-4">
+                <!-- Super Admin Passcode -->
+                <div class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-700">
+                    <label class="block text-xs font-bold text-indigo-300 mb-1">Super Admin Passcode</label>
+                    <input type="text" id="pass-edit-super" required class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white text-sm focus:outline-none focus:border-indigo-500">
+                </div>
+
+                <hr class="border-slate-800">
+                <p id="lbl-section-passcodes" class="text-xs font-bold text-slate-400 uppercase tracking-wider">Section-Specific Passcodes</p>
+
+                <div id="section-passcode-inputs" class="space-y-3">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div id="passcode-save-success" class="hidden p-2.5 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-check"></i>
+                    <span>Passcodes updated successfully!</span>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button type="button" onclick="closePasscodeEditModal()" class="w-1/3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn-3d w-2/3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl text-xs">
+                        Save Updated Passcodes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- DETAIL VIEW MODAL -->
+    <div id="detail-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-card-3d rounded-3xl p-6 max-w-2xl w-full border border-blue-500/40 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                <h3 id="modal-detail-title" class="text-lg font-bold text-white">Full Review Details</h3>
+                <button onclick="closeDetailModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="detail-modal-content" class="space-y-4 text-xs"></div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // Global State & Persistent Storage Keys
+        let currentLang = 'en'; // 'en' or 'ar'
+        let currentView = 'guardian'; // 'guardian' or 'admin'
+        let activeAdminRole = 'SUPER_ADMIN'; // 'SUPER_ADMIN' or department key
+        
+        // Active Step State for Guardian Form
+        let currentStep = 1;
+        let step1Data = { studentName: '', guardianName: '', section: '', grade: '' };
+        let activeRatings = {};
+
+        // Language-Specific Departments Object
+        const DEPARTMENTS = {
+            'british_kg': { en: "British KG Section", ar: "الروضة انترناشونال" },
+            'british_girls': { en: "British Girls’ Section", ar: "انترناشونال بنات" },
+            'british_boys': { en: "British Boys’ Section", ar: "انترناشونال بنين" },
+            'egyptian_kg': { en: "Egyptian KG Section", ar: "الروضة مسار مصري" },
+            'egyptian_girls': { en: "Egyptian Girls’ Section", ar: "مسار مصري بنات" },
+            'egyptian_boys': { en: "Egyptian Boys’ Section", ar: "مسار مصري بنين" }
+        };
+
+        // 9 Evaluation Criteria
+        const EVALUATION_QUESTIONS = [
+            { id: 'q1', en: "01. Students' educational outcome?", ar: "01. التحصيل الدراسي للطلاب؟" },
+            { id: 'q2', en: "02. Students' understanding of the curricula?", ar: "02. استيعاب الطلاب المناهج الدراسية؟" },
+            { id: 'q3', en: "03. The school's response to your feedback and its implementation?", ar: "03. استجابة المدرسة لملاحظاتكم وتطبيقها؟" },
+            { id: 'q4', en: "04. The school's response to your development and improvement suggestions?", ar: "04. استجابة المدرسة لمقترحاتكم في التطوير والتحسين؟" },
+            { id: 'q5', en: "05. The educational staff and their performance with the students?", ar: "05. الكادر التعليمي وأدائه مع الطلاب؟" },
+            { id: 'q6', en: "06. The quantity and quality of the offered in-class and extracurricular activities?", ar: "06. كمية ونوعية الأنشطة الصفية والغير صفية المقدمة؟" },
+            { id: 'q7', en: "07. Communication between teachers and parents?", ar: "07. التواصل بين المعلمين وأولياء الأمور؟" },
+            { id: 'q8', en: "08. Achieving religious values and the educational and pedagogical goals for the students?", ar: "08. تحقيق القيم الدينية والأهداف التعليمية والتربوية للطلاب؟" },
+            { id: 'q9', en: "09. In general, how satisfied are you with the school?", ar: "09. بشكل عام مدى الرضى عن المدرسة؟" }
+        ];
+
+        // Default Passcodes Map
+        let adminPasscodes = JSON.parse(localStorage.getItem('sama_passcodes')) || {
+            SUPER_ADMIN: '1234',
+            british_kg: '1234',
+            british_girls: '1234',
+            british_boys: '1234',
+            egyptian_kg: '1234',
+            egyptian_girls: '1234',
+            egyptian_boys: '1234'
+        };
+
+        // Translations Object
+        const i18n = {
+            en: {
+                appTitle: "Sama Onaizah International School",
+                appSubtitle: "Guardians' Feedback & Quality Assurance Platform",
+                langBtnText: "العربية",
+                adminAccessBtn: "Admin Access",
+                step1Title: "STEP 1",
+                step1Desc: "Student Info",
+                step2Title: "STEP 2",
+                step2Desc: "Evaluation",
+                step1Heading: "Student & Guardian Registration",
+                step1Subheading: "Please enter student details to begin the feedback form",
+                lblStudentName: "Student Name",
+                lblGuardianName: "Guardian Name (Optional)",
+                lblSection: "Department / Section",
+                lblGrade: "Grade",
+                selectGradePlaceholder: "-- Select Grade --",
+                btnNextText: "Proceed to Evaluation",
+                step1Error: "Please fill in all required fields to proceed.",
+                sumStudent: "Student:",
+                sumSection: "Section:",
+                sumGrade: "Grade:",
+                btnEditInfo: "Edit Details",
+                evalTitle: "School Evaluation Criteria",
+                evalSubtitle: "Please rate your experience on a scale of 1 to 5 stars for each evaluation point below",
+                lblComments: "010. Additional Suggestions or Feedback for Improvement",
+                btnBack: "Back",
+                btnSubmit: "Submit Feedback",
+                modalSuccessTitle: "Thank You!",
+                modalSuccessMsg: "Your feedback has been successfully submitted to Sama Onaizah International School leadership.",
+                btnCloseSuccess: "Submit Another Review",
+                adminTitle: "Management Dashboard",
+                btnManagePass: "Manage Passcodes",
+                btnExportExcel: "Export to Excel (.xlsx)",
+                btnExitAdmin: "Exit Admin",
+                statTotal: "Total Feedback",
+                statAvg: "Overall Satisfaction",
+                statOutcome: "Educational Outcome",
+                statComm: "Parent Communication",
+                tableHeading: "Guardian Responses Log",
+                optFilterAllDept: "All Departments",
+                thDate: "Date",
+                thStudent: "Student",
+                thGuardian: "Guardian",
+                thSection: "Section",
+                thGrade: "Grade",
+                thOverall: "Overall",
+                thActions: "Actions"
+            },
+            ar: {
+                appTitle: "مدارس سما عنيزة العالمية",
+                appSubtitle: "منصة استبيان وآراء أولياء الأمور وتطوير الجودة",
+                langBtnText: "English",
+                adminAccessBtn: "دخول الإدارة",
+                step1Title: "الخطوة ١",
+                step1Desc: "بيانات الطالب",
+                step2Title: "الخطوة ٢",
+                step2Desc: "التقييم",
+                step1Heading: "تسجيل بيانات الطالب وولي الأمر",
+                step1Subheading: "يرجى تعبئة البيانات الأساسية للبدء في نموذج التقييم",
+                lblStudentName: "اسم الطالب / الطالبة",
+                lblGuardianName: "اسم ولي الأمر (اختياري)",
+                lblSection: "القسم / المسار التعليمي",
+                lblGrade: "الصف الدراسي",
+                selectGradePlaceholder: "-- اختر الصف --",
+                btnNextText: "الانتقال للتقييم",
+                step1Error: "يرجى تعبئة جميع الحقول المطلوبة للمتابعة.",
+                sumStudent: "الطالب:",
+                sumSection: "القسم:",
+                sumGrade: "الصف:",
+                btnEditInfo: "تعديل البيانات",
+                evalTitle: "معايير تقييم المدرسة",
+                evalSubtitle: "يرجى تقييم كل بند من 1 إلى 5 نجوم بناءً على تجربتكم",
+                lblComments: "010. مقترحات أو ملاحظات إضافية للتطوير والتحسين",
+                btnBack: "رجوع",
+                btnSubmit: "إرسال التقييم",
+                modalSuccessTitle: "شكراً لكم!",
+                modalSuccessMsg: "تم إرسال تقييمكم بنجاح إلى إدارة مدارس سما عنيزة العالمية.",
+                btnCloseSuccess: "إرسال تقييم آخر",
+                adminTitle: "لوحة تحكم الإدارة",
+                btnManagePass: "إدارة كلمات المرور",
+                btnExportExcel: "تصدير إلى إكسيل (.xlsx)",
+                btnExitAdmin: "خروج من الإدارة",
+                statTotal: "إجمالي التقييمات",
+                statAvg: "متوسط الرضى العام",
+                statOutcome: "التحصيل الدراسي",
+                statComm: "التواصل مع المعلمين",
+                tableHeading: "سجل تقييمات أولياء الأمور",
+                optFilterAllDept: "جميع الأقسام",
+                thDate: "التاريخ",
+                thStudent: "الطالب",
+                thGuardian: "ولي الأمر",
+                thSection: "القسم",
+                thGrade: "الصف",
+                thOverall: "المتوسط",
+                thActions: "الإجراءات"
+            }
+        };
+
+        // Initialize Reviews Data Storage
+        let reviews = JSON.parse(localStorage.getItem('sama_reviews')) || [
+            {
+                id: '101',
+                date: '2026-10-20',
+                studentName: 'Youssef Ahmed',
+                guardianName: 'Ahmed Mahmoud',
+                sectionKey: 'british_boys',
+                grade: 'G5',
+                ratings: { q1: 5, q2: 4, q3: 5, q4: 4, q5: 5, q6: 4, q7: 5, q8: 5, q9: 5 },
+                comments: 'Excellent academic follow-up.'
+            },
+            {
+                id: '102',
+                date: '2026-10-22',
+                studentName: 'Laila Mohamed',
+                guardianName: 'Mohamed Ali',
+                sectionKey: 'egyptian_girls',
+                grade: 'G3',
+                ratings: { q1: 4, q2: 4, q3: 3, q4: 4, q5: 4, q6: 3, q7: 4, q8: 5, q9: 4 },
+                comments: 'Great progress in Quran and religious studies.'
+            }
+        ];
+
+        // DOM Initialization
+        window.onload = function() {
+            populateDepartmentSelects();
+            renderEvaluationQuestions();
+            updateUI();
+        };
+
+        // Toggle Language Handler
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'ar' : 'en';
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLang;
+
+            populateDepartmentSelects();
+            renderEvaluationQuestions();
+            updateUI();
+
+            if (currentView === 'admin') {
+                renderAdminTable();
+            }
+        }
+
+        // Populate Department Select Dropdowns with Only Current Active Language
+        function populateDepartmentSelects() {
+            const sectionSelect = document.getElementById('section-select');
+            const filterDept = document.getElementById('filter-department');
+            const roleSelect = document.getElementById('admin-role-select');
+
+            const currentSectionVal = sectionSelect.value;
+            const currentFilterVal = filterDept.value;
+
+            // Step 1 Form Select
+            sectionSelect.innerHTML = `<option value="">-- ${currentLang === 'ar' ? 'اختر القسم' : 'Select Section'} --</option>`;
+            Object.keys(DEPARTMENTS).forEach(key => {
+                const label = DEPARTMENTS[key][currentLang];
+                sectionSelect.innerHTML += `<option value="${key}">${label}</option>`;
+            });
+            if (currentSectionVal) sectionSelect.value = currentSectionVal;
+
+            // Admin Filter Select
+            filterDept.innerHTML = `<option value="ALL" id="opt-filter-all-dept">${i18n[currentLang].optFilterAllDept}</option>`;
+            Object.keys(DEPARTMENTS).forEach(key => {
+                const label = DEPARTMENTS[key][currentLang];
+                filterDept.innerHTML += `<option value="${key}">${label}</option>`;
+            });
+            if (currentFilterVal) filterDept.value = currentFilterVal;
+
+            // Admin Role Select
+            roleSelect.innerHTML = `<option value="SUPER_ADMIN">Super Admin (${currentLang === 'ar' ? 'جميع الأقسام' : 'All Sections'})</option>`;
+            Object.keys(DEPARTMENTS).forEach(key => {
+                const label = DEPARTMENTS[key][currentLang];
+                roleSelect.innerHTML += `<option value="${key}">${label}</option>`;
+            });
+        }
+
+        // Update All Interface Labels
+        function updateUI() {
+            const lang = i18n[currentLang];
+
+            document.getElementById('app-title').innerText = lang.appTitle;
+            document.getElementById('app-subtitle').innerText = lang.appSubtitle;
+            document.getElementById('lang-btn-text').innerText = lang.langBtnText;
+            document.getElementById('view-btn-text').innerText = lang.adminAccessBtn;
+
+            document.getElementById('step1-title').innerText = lang.step1Title;
+            document.getElementById('step1-desc').innerText = lang.step1Desc;
+            document.getElementById('step2-title').innerText = lang.step2Title;
+            document.getElementById('step2-desc').innerText = lang.step2Desc;
+
+            document.getElementById('step1-heading').innerText = lang.step1Heading;
+            document.getElementById('step1-subheading').innerText = lang.step1Subheading;
+            document.getElementById('lbl-student-name').innerHTML = `${lang.lblStudentName} <span class="text-rose-400">*</span>`;
+            document.getElementById('lbl-guardian-name').innerText = lang.lblGuardianName;
+            document.getElementById('lbl-section').innerHTML = `${lang.lblSection} <span class="text-rose-400">*</span>`;
+            document.getElementById('lbl-grade').innerHTML = `${lang.lblGrade} <span class="text-rose-400">*</span>`;
+            document.getElementById('btn-next-text').innerText = lang.btnNextText;
+
+            // Step 1 Error Message Update
+            document.getElementById('step1-error').innerText = lang.step1Error;
+
+            document.getElementById('sum-lbl-student').innerText = lang.sumStudent;
+            document.getElementById('sum-lbl-section').innerText = lang.sumSection;
+            document.getElementById('sum-lbl-grade').innerText = lang.sumGrade;
+            document.getElementById('btn-edit-info').innerText = lang.btnEditInfo;
+
+            document.getElementById('eval-title').innerText = lang.evalTitle;
+            document.getElementById('eval-subtitle').innerText = lang.evalSubtitle;
+            document.getElementById('lbl-comments').innerText = lang.lblComments;
+            document.getElementById('btn-back').innerText = lang.btnBack;
+            document.getElementById('btn-submit').innerText = lang.btnSubmit;
+
+            document.getElementById('modal-success-title').innerText = lang.modalSuccessTitle;
+            document.getElementById('modal-success-msg').innerText = lang.modalSuccessMsg;
+            document.getElementById('btn-close-success').innerText = lang.btnCloseSuccess;
+
+            // Admin View
+            document.getElementById('admin-title').innerText = lang.adminTitle;
+            document.getElementById('btn-edit-passcodes').innerText = lang.btnManagePass;
+            document.getElementById('btn-export-excel').innerText = lang.btnExportExcel;
+            document.getElementById('btn-exit-admin').innerText = lang.btnExitAdmin;
+
+            document.getElementById('stat-total-lbl').innerText = lang.statTotal;
+            document.getElementById('stat-avg-lbl').innerText = lang.statAvg;
+            document.getElementById('stat-outcome-lbl').innerText = lang.statOutcome;
+            document.getElementById('stat-comm-lbl').innerText = lang.statComm;
+
+            document.getElementById('table-heading').innerText = lang.tableHeading;
+            document.getElementById('th-date').innerText = lang.thDate;
+            document.getElementById('th-student').innerText = lang.thStudent;
+            document.getElementById('th-guardian').innerText = lang.thGuardian;
+            document.getElementById('th-section').innerText = lang.thSection;
+            document.getElementById('th-grade').innerText = lang.thGrade;
+            document.getElementById('th-overall').innerText = lang.thOverall;
+            document.getElementById('th-actions').innerText = lang.thActions;
+        }
+
+        // Step 1 Submission & Validation Handler
+        function handleProceedToStep2(e) {
+            e.preventDefault();
+            const studentName = document.getElementById('student-name').value.trim();
+            const guardianName = document.getElementById('guardian-name').value.trim();
+            const section = document.getElementById('section-select').value;
+            const grade = document.getElementById('grade-select').value;
+
+            const errorDiv = document.getElementById('step1-error');
+
+            if (!studentName || !section || !grade) {
+                errorDiv.innerText = i18n[currentLang].step1Error;
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            errorDiv.classList.add('hidden');
+
+            step1Data = { studentName, guardianName: guardianName || 'N/A', section, grade };
+
+            // Update Summary Header on Step 2
+            document.getElementById('summary-student').innerText = step1Data.studentName;
+            document.getElementById('summary-section').innerText = DEPARTMENTS[step1Data.section][currentLang];
+            document.getElementById('summary-grade').innerText = step1Data.grade;
+
+            // Transition to Step 2
+            currentStep = 2;
+            document.getElementById('step-1-page').classList.add('hidden');
+            document.getElementById('step-2-page').classList.remove('hidden');
+
+            // Update Step Indicators
+            const s1Ind = document.getElementById('step1-indicator');
+            const s2Ind = document.getElementById('step2-indicator');
+
+            s1Ind.className = "w-10 h-10 rounded-xl step-completed flex items-center justify-center font-bold text-white shadow-md";
+            s1Ind.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+            s2Ind.className = "w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md";
+            document.getElementById('step2-title').classList.replace('text-slate-400', 'text-white');
+            document.getElementById('step2-desc').classList.replace('text-slate-400', 'text-blue-300');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Return to Step 1
+        function backToStep1() {
+            currentStep = 1;
+            document.getElementById('step-2-page').classList.add('hidden');
+            document.getElementById('step-1-page').classList.remove('hidden');
+
+            const s1Ind = document.getElementById('step1-indicator');
+            const s2Ind = document.getElementById('step2-indicator');
+
+            s1Ind.className = "w-10 h-10 rounded-xl step-active flex items-center justify-center font-bold text-white shadow-md";
+            s1Ind.innerHTML = '1';
+
+            s2Ind.className = "w-10 h-10 rounded-xl step-inactive flex items-center justify-center font-bold text-slate-400";
+        }
+
+        // Render 9 Questions into Step 2 Container
+        function renderEvaluationQuestions() {
+            const container = document.getElementById('questions-container');
+            container.innerHTML = '';
+
+            EVALUATION_QUESTIONS.forEach(q => {
+                const qText = q[currentLang];
+                const activeVal = activeRatings[q.id] || 0;
+
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    const isSelected = i <= activeVal;
+                    const starColor = isSelected ? 'text-amber-400' : 'text-slate-600';
+                    starsHtml += `
+                        <button type="button" onclick="setRating('${q.id}', ${i})" class="star-btn p-1.5 text-2xl focus:outline-none ${starColor}">
+                            <i class="fa-solid fa-star"></i>
+                        </button>
+                    `;
+                }
+
+                container.innerHTML += `
+                    <div class="glass-card-3d rounded-2xl p-5 border border-slate-700/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                        <div class="md:w-3/5">
+                            <p class="font-semibold text-white text-sm md:text-base leading-relaxed">${qText}</p>
+                        </div>
+                        <div class="flex items-center gap-1 bg-slate-900/90 px-4 py-2 rounded-xl border border-slate-800 self-start md:self-auto">
+                            ${starsHtml}
+                            <span class="text-xs font-bold text-slate-400 ml-2 dir-rtl:mr-2 dir-rtl:ml-0 min-w-[3rem] text-center">
+                                ${activeVal ? activeVal + ' / 5' : '-'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Handle Star Rating Click
+        function setRating(qId, val) {
+            activeRatings[qId] = val;
+            renderEvaluationQuestions();
+        }
+
+        // Handle Final Review Submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            // Validate all 9 ratings selected
+            const missing = EVALUATION_QUESTIONS.some(q => !activeRatings[q.id]);
+            if (missing) {
+                alert(currentLang === 'ar' ? 'يرجى إكمال جميع نقاط التقييم الـ 9 قبل الإرسال.' : 'Please rate all 9 evaluation points before submitting.');
+                return;
+            }
+
+            const newReview = {
+                id: Date.now().toString(),
+                date: new Date().toISOString().split('T')[0],
+                studentName: step1Data.studentName,
+                guardianName: step1Data.guardianName,
+                sectionKey: step1Data.section,
+                grade: step1Data.grade,
+                ratings: { ...activeRatings },
+                comments: document.getElementById('comments-input').value.trim() || 'N/A'
+            };
+
+            reviews.unshift(newReview);
+            localStorage.setItem('sama_reviews', JSON.stringify(reviews));
+
+            // Show Success Modal
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        // Reset Guardian Form
+        function resetForm() {
+            document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('info-form').reset();
+            document.getElementById('evaluation-form').reset();
+            activeRatings = {};
+            backToStep1();
+        }
+
+        // ADMIN ACCESS & PASSCODE ROUTINES
+        function openAdminModal() {
+            document.getElementById('admin-passcode-modal').classList.remove('hidden');
+            document.getElementById('passcode-error').classList.add('hidden');
+            document.getElementById('passcode-input').value = '';
+        }
+
+        function closeAdminModal() {
+            document.getElementById('admin-passcode-modal').classList.add('hidden');
+        }
+
+        function verifyPasscode(e) {
+            e.preventDefault();
+            const selectedRole = document.getElementById('admin-role-select').value;
+            const enteredCode = document.getElementById('passcode-input').value.trim();
+
+            const requiredCode = adminPasscodes[selectedRole] || adminPasscodes.SUPER_ADMIN;
+
+            if (enteredCode === requiredCode) {
+                activeAdminRole = selectedRole;
+                closeAdminModal();
+                switchToAdminView();
+            } else {
+                document.getElementById('passcode-error').classList.remove('hidden');
+            }
+        }
+
+        function switchToAdminView() {
+            currentView = 'admin';
+            document.getElementById('guardian-view').classList.add('hidden');
+            document.getElementById('admin-view').classList.remove('hidden');
+
+            const badge = document.getElementById('admin-badge');
+            if (activeAdminRole === 'SUPER_ADMIN') {
+                badge.innerText = "Super Admin";
+            } else {
+                badge.innerText = DEPARTMENTS[activeAdminRole][currentLang];
+            }
+
+            renderAdminTable();
+        }
+
+        function exitAdminView() {
+            currentView = 'guardian';
+            document.getElementById('admin-view').classList.add('hidden');
+            document.getElementById('guardian-view').classList.remove('hidden');
+        }
+
+        // Render Admin Data Table & Compute Stats
+        function renderAdminTable() {
+            const tableBody = document.getElementById('reviews-table-body');
+            const deptFilter = document.getElementById('filter-department').value;
+            const searchVal = document.getElementById('search-input').value.toLowerCase();
+
+            tableBody.innerHTML = '';
+
+            // Filter reviews based on section role access
+            let filtered = reviews.filter(r => {
+                if (activeAdminRole !== 'SUPER_ADMIN' && r.sectionKey !== activeAdminRole) return false;
+                if (deptFilter !== 'ALL' && r.sectionKey !== deptFilter) return false;
+                if (searchVal) {
+                    const matchStudent = r.studentName.toLowerCase().includes(searchVal);
+                    const matchGuardian = r.guardianName.toLowerCase().includes(searchVal);
+                    if (!matchStudent && !matchGuardian) return false;
+                }
+                return true;
+            });
+
+            // Calculate Metrics
+            const total = filtered.length;
+            let sumOverall = 0;
+            let sumOutcome = 0;
+            let sumComm = 0;
+
+            filtered.forEach(r => {
+                const vals = Object.values(r.ratings);
+                const avg = vals.reduce((a, b) => a + b, 0) / vals.length;
+                sumOverall += avg;
+                sumOutcome += (r.ratings.q1 || 0);
+                sumComm += (r.ratings.q7 || 0);
+            });
+
+            document.getElementById('stat-total-val').innerText = total;
+            document.getElementById('stat-avg-val').innerText = total ? (sumOverall / total).toFixed(1) + ' / 5' : '0.0 / 5';
+            document.getElementById('stat-outcome-val').innerText = total ? (sumOutcome / total).toFixed(1) + ' / 5' : '0.0 / 5';
+            document.getElementById('stat-comm-val').innerText = total ? (sumComm / total).toFixed(1) + ' / 5' : '0.0 / 5';
+
+            if (filtered.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="p-6 text-center text-slate-400">
+                            ${currentLang === 'ar' ? 'لا توجد تقييمات مطابقة' : 'No matching feedback reviews found.'}
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filtered.forEach(r => {
+                const vals = Object.values(r.ratings);
+                const avg = (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(1);
+                const deptLabel = DEPARTMENTS[r.sectionKey] ? DEPARTMENTS[r.sectionKey][currentLang] : r.sectionKey;
+
+                tableBody.innerHTML += `
+                    <tr class="hover:bg-slate-800/50 transition">
+                        <td class="p-3.5 text-slate-400">${r.date}</td>
+                        <td class="p-3.5 font-bold text-white">${r.studentName}</td>
+                        <td class="p-3.5 text-slate-300">${r.guardianName}</td>
+                        <td class="p-3.5">
+                            <span class="bg-blue-500/10 text-blue-300 border border-blue-500/30 px-2.5 py-1 rounded-lg text-[11px] font-semibold">
+                                ${deptLabel}
+                            </span>
+                        </td>
+                        <td class="p-3.5 font-semibold text-emerald-400">${r.grade}</td>
+                        <td class="p-3.5 text-center">
+                            <span class="bg-amber-500/20 text-amber-300 font-bold px-2 py-1 rounded-md">
+                                ★ ${avg}
+                            </span>
+                        </td>
+                        <td class="p-3.5">
+                            <button onclick="viewReviewDetail('${r.id}')" class="text-blue-400 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-2.5 py-1 rounded-lg font-bold">
+                                View
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // View Full Review Details Modal
+        function viewReviewDetail(id) {
+            const review = reviews.find(r => r.id === id);
+            if (!review) return;
+
+            const modalContent = document.getElementById('detail-modal-content');
+            const deptLabel = DEPARTMENTS[review.sectionKey][currentLang];
+
+            let ratingsList = '';
+            EVALUATION_QUESTIONS.forEach(q => {
+                const score = review.ratings[q.id] || 0;
+                ratingsList += `
+                    <div class="flex justify-between items-center py-1.5 border-b border-slate-800">
+                        <span class="text-slate-300">${q[currentLang]}</span>
+                        <span class="font-bold text-amber-400">★ ${score} / 5</span>
+                    </div>
+                `;
+            });
+
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-2 gap-3 bg-slate-900 p-3 rounded-xl mb-3">
+                    <div><span class="text-slate-400 block">Student:</span> <strong class="text-white">${review.studentName}</strong></div>
+                    <div><span class="text-slate-400 block">Guardian:</span> <strong class="text-white">${review.guardianName}</strong></div>
+                    <div><span class="text-slate-400 block">Department:</span> <strong class="text-blue-400">${deptLabel}</strong></div>
+                    <div><span class="text-slate-400 block">Grade:</span> <strong class="text-emerald-400">${review.grade}</strong></div>
+                </div>
+                <div class="space-y-1">${ratingsList}</div>
+                <div class="mt-3 bg-slate-900 p-3 rounded-xl">
+                    <span class="text-slate-400 block font-bold mb-1">Suggestions / Comments:</span>
+                    <p class="text-slate-200 italic">${review.comments}</p>
+                </div>
+            `;
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        // Manage Passcodes Modal Logic
+        function openPasscodeEditModal() {
+            if (activeAdminRole !== 'SUPER_ADMIN') {
+                alert(currentLang === 'ar' ? 'تعديل كلمات المرور متاح فقط للمدير العام.' : 'Passcode management is restricted to Super Admin.');
+                return;
+            }
+
+            document.getElementById('pass-edit-super').value = adminPasscodes.SUPER_ADMIN || '1234';
+            const container = document.getElementById('section-passcode-inputs');
+            container.innerHTML = '';
+
+            Object.keys(DEPARTMENTS).forEach(key => {
+                const deptName = DEPARTMENTS[key][currentLang];
+                const currentPass = adminPasscodes[key] || '1234';
+                container.innerHTML += `
+                    <div class="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800">
+                        <span class="text-xs font-semibold text-slate-300">${deptName}</span>
+                        <input type="text" data-dept="${key}" value="${currentPass}" class="sec-pass-input bg-slate-950 border border-slate-700 rounded-lg p-1.5 text-xs text-white w-32 text-center focus:outline-none focus:border-indigo-500">
+                    </div>
+                `;
+            });
+
+            document.getElementById('passcode-edit-modal').classList.remove('hidden');
+            document.getElementById('passcode-save-success').classList.add('hidden');
+        }
+
+        function closePasscodeEditModal() {
+            document.getElementById('passcode-edit-modal').classList.add('hidden');
+        }
+
+        function saveNewPasscodes(e) {
+            e.preventDefault();
+            adminPasscodes.SUPER_ADMIN = document.getElementById('pass-edit-super').value.trim();
+
+            document.querySelectorAll('.sec-pass-input').forEach(input => {
+                const deptKey = input.getAttribute('data-dept');
+                adminPasscodes[deptKey] = input.value.trim();
+            });
+
+            localStorage.setItem('sama_passcodes', JSON.stringify(adminPasscodes));
+            document.getElementById('passcode-save-success').classList.remove('hidden');
+
+            setTimeout(() => {
+                closePasscodeEditModal();
+            }, 1200);
+        }
+
+        // Export All Reviews to Formatted Excel (.xlsx) Sheet
+        function exportToExcel() {
+            if (reviews.length === 0) {
+                alert(currentLang === 'ar' ? 'لا توجد بيانات للتصدير' : 'No review data to export.');
+                return;
+            }
+
+            const exportData = reviews.map((r, idx) => {
+                const row = {
+                    '#': idx + 1,
+                    'Date': r.date,
+                    'Student Name': r.studentName,
+                    'Guardian Name': r.guardianName,
+                    'Department': DEPARTMENTS[r.sectionKey] ? DEPARTMENTS[r.sectionKey].en : r.sectionKey,
+                    'Department (Arabic)': DEPARTMENTS[r.sectionKey] ? DEPARTMENTS[r.sectionKey].ar : r.sectionKey,
+                    'Grade': r.grade,
+                };
+
+                // Add 9 Evaluation Points
+                EVALUATION_QUESTIONS.forEach(q => {
+                    row[q.en] = r.ratings[q.id] || 0;
+                });
+
+                row['Suggestions / Comments'] = r.comments;
+                return row;
+            });
+
+            const worksheet = XLSX.utils.json_to_sheet(exportData);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Guardians Feedback");
+
+            // Auto-fit Column Widths
+            const max_cols = Object.keys(exportData[0]).length;
+            worksheet['!cols'] = Array(max_cols).fill({ wch: 22 });
+
+            XLSX.writeFile(workbook, `Sama_Onaizah_Feedback_${new Date().toISOString().split('T')[0]}.xlsx`);
+        }
+    </script>
+</body>
+</html>
